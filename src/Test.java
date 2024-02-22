@@ -10,6 +10,14 @@ public class Test {
     mokarp.afegirAtac(new Atacs("Planta", Tipus.PLANTA));
     mokarp.afegirAtac(new Atacs("Aigua", Tipus.AIGUA));
     mikachu.atacar(mokarp, 0);
+    mokarp.stats();
+    mikachu.atacar(mokarp, 0);
+    mokarp.stats();
+    mikachu.atacar(mokarp, 0);
+    mokarp.stats();
+    mikachu.atacar(mokarp, 0);
+    mokarp.stats();
+    mikachu.atacar(mokarp, 0);
     mokarp.atacar(mikachu, 0);
     mokarp.stats();
     mikachu.stats();

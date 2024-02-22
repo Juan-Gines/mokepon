@@ -20,6 +20,8 @@ public class Mokepon {
 
   Atacs[] atacs = new Atacs[2];
 
+  boolean debilitat = false;
+
   public Mokepon() {
     nom = "Sense definir";
     nivell = 1;
@@ -94,13 +96,26 @@ public class Mokepon {
   }
 
   public void atacar(Mokepon atacat, int num_atac) {
+    if (debilitat) {
+      System.out.println("No pots atacar, estàs debilitat");
+      return;
+    }
+    if (atacat.debilitat) {
+      System.out.println("No pots atacar, el teu oponent està debilitat");
+      return;
+    }
     if (atacs[num_atac] != null) {
       if (atacs[num_atac].moviments_actuals > 0) {
         atacs[num_atac].moviments_actuals--;
         double efectivitat = efectivitat(atacs[num_atac].tipus, atacat.tipus);
         long dany = Math
             .round(((2 * nivell / 5 + 2) * atacs[num_atac].poder * atk / atacat.def / 50 + 2) * efectivitat);
-        atacat.hp_actual -= dany;
+        if (dany < atacat.hp_actual) {
+          atacat.hp_actual -= dany;
+        } else {
+          atacat.hp_actual = 0;
+          atacat.debilitarse();
+        }
         System.out.println(nom + " ha fet " + dany + " de dany a " + atacat.nom);
       } else {
         System.out.println("No pots fer aquest atac, no tens moviments");
@@ -122,6 +137,17 @@ public class Mokepon {
     }
   }
 
+  public void debilitarse() {
+    debilitat = true;
+    System.out.println(Constants.ANSI_RED + nom + " s'ha debilitat" + Constants.ANSI_RESET);
+  }
+
+  public void curar() {
+    hp_actual = hp_max;
+    if (debilitat)
+      debilitat = false;
+  }
+
   public void stats() {
     System.out.println(Constants.ANSI_BLUE + "Nom: " + nom);
     System.out.println("Nivell: " + nivell);
@@ -129,6 +155,8 @@ public class Mokepon {
     System.out.println("Def: " + def);
     System.out.println("Vel: " + vel);
     System.out.println("HP: " + hp_actual + "/" + hp_max);
+    System.out.println("Tipus: " + tipus);
+    System.out.println(debilitat ? "Debilitat" : "No debilitat" + Constants.ANSI_RESET);
     System.out.println(nom + " ha après els atacs: ");
     for (int i = 0; i < atacs.length; i++) {
       if (atacs[i] != null)
