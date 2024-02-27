@@ -7,9 +7,13 @@ public class Test {
     mikachu.atorgarExperiencia(150);
     mikachu.afegirAtac(new Atacs("Raix", 100, Tipus.FOC, 10));
     mikachu.afegirAtac(new Atacs("Aigua", Tipus.AIGUA));
+    MokeponCapturat mikachuCapturat = new MokeponCapturat(mikachu, "Mikachulo", "Juangi");
+    mikachuCapturat.afegirAtac(new Atacs("Raix", 100, Tipus.FOC, 10));
+    mikachuCapturat.stats();
     mokarp.afegirAtac(new Atacs("Planta", Tipus.PLANTA));
     mokarp.afegirAtac(new Atacs("Aigua", Tipus.AIGUA));
     mikachu.atacar(mokarp, 0);
+    mikachuCapturat.atacar(mokarp, 0);
     mokarp.stats();
     mikachu.atacar(mokarp, 0);
     mokarp.stats();
@@ -21,5 +25,9 @@ public class Test {
     mokarp.atacar(mikachu, 0);
     mokarp.stats();
     mikachu.stats();
+    mokarp.curar();
+    MokeponCapturat mokarpCapturat = mokarp.capturar("Juangi", "Pececillo");
+    mokarpCapturat.stats();
+    mokarpCapturat.capturar("Juangi", "Pececillo");
   }
 }

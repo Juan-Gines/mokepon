@@ -110,13 +110,12 @@ public class Mokepon {
         double efectivitat = efectivitat(atacs[num_atac].tipus, atacat.tipus);
         long dany = Math
             .round(((2 * nivell / 5 + 2) * atacs[num_atac].poder * atk / atacat.def / 50 + 2) * efectivitat);
-        if (dany < atacat.hp_actual) {
-          atacat.hp_actual -= dany;
-        } else {
+        System.out.println(nom + " ha fet " + dany + " de dany a " + atacat.nom);
+        atacat.hp_actual -= dany;
+        if (atacat.hp_actual <= 0) {
           atacat.hp_actual = 0;
           atacat.debilitarse();
         }
-        System.out.println(nom + " ha fet " + dany + " de dany a " + atacat.nom);
       } else {
         System.out.println("No pots fer aquest atac, no tens moviments");
       }
@@ -147,6 +146,17 @@ public class Mokepon {
     if (debilitat)
       debilitat = false;
   }
+  
+  public MokeponCapturat capturar(String nomEntrenador, String nomDonat) {
+
+    if(!(this instanceof MokeponCapturat)) {
+      System.out.println("Has capturat a " + nomDonat);      
+      return new MokeponCapturat(this, nomDonat, nomEntrenador);
+    } else {
+      System.out.println("Aquest mokepon ja està capturat");
+      return null;
+    }
+  }
 
   public void stats() {
     System.out.println(Constants.ANSI_BLUE + "Nom: " + nom);
@@ -156,12 +166,13 @@ public class Mokepon {
     System.out.println("Vel: " + vel);
     System.out.println("HP: " + hp_actual + "/" + hp_max);
     System.out.println("Tipus: " + tipus);
-    System.out.println(debilitat ? "Debilitat" : "No debilitat" + Constants.ANSI_RESET);
+    System.out.println(debilitat ? "Debilitat" : "No debilitat");
     System.out.println(nom + " ha après els atacs: ");
     for (int i = 0; i < atacs.length; i++) {
       if (atacs[i] != null)
         System.out.println(atacs[i].nom + " poder: " + atacs[i].poder + " tipus: " + atacs[i].tipus + " moviments: "
             + atacs[i].moviments_actuals + "/" + atacs[i].moviments_maxims);
     }
+    System.out.println(Constants.ANSI_RESET);
   }
 }
