@@ -3,7 +3,6 @@ public class Test {
     Mokepon mikachu = new Mokepon("Mikachu", 5, 10, 10, 10, 50, Tipus.FOC);
     Mokepon mokarp = new Mokepon("Mokarp", 5, 10, 10, 10, 50, Tipus.PLANTA);
 
-    mikachu.pujarNivell();
     mikachu.atorgarExperiencia(150);
     mikachu.afegirAtac(new Atacs("Raix", 100, Tipus.FOC, 10));
     mikachu.afegirAtac(new Atacs("Aigua", Tipus.AIGUA));
@@ -29,5 +28,9 @@ public class Test {
     MokeponCapturat mokarpCapturat = mokarp.capturar("Juangi", "Pececillo");
     mokarpCapturat.stats();
     mokarpCapturat.capturar("Juangi", "Pececillo");
+    System.out.println("Mokepons capturats: " + MokeponCapturat.NombreMokeponsCapturats);
+    System.out.println(mikachu.getAtacks()[0]);
+    System.out.println(mikachuCapturat);
+    System.out.println(mikachu);
   }
 }

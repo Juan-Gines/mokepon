@@ -27,5 +27,7 @@ public class Atacs {
     this.moviments_maxims = moviments_maxims;
     this.moviments_actuals = moviments_maxims;
   }
-
+  public String toString() {
+    return "Atac [nom=" + nom + ", poder=" + poder + ", tipus=" + tipus + ", moviments maxims=" + moviments_maxims + ", moviments_actuals" + moviments_actuals + "]";
+  }
 }

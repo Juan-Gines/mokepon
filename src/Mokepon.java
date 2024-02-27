@@ -1,27 +1,28 @@
 
 public class Mokepon {
-  String nom;
+  private String nom;
 
-  int nivell;
+  private int nivell;
 
-  int atk;
+  private int atk;
 
-  int def;
+  private int def;
 
-  int vel;
+  private int vel;
 
-  int exp;
+  private int exp;
 
-  int hp_max;
+  private long hp_max;
 
-  int hp_actual;
+  private long hp_actual;
 
-  Tipus tipus;
+  private Tipus tipus;
 
-  Atacs[] atacs = new Atacs[2];
+  private Atacs[] getAtacks = new Atacs[2];
 
-  boolean debilitat = false;
+  private boolean debilitat = false;
 
+  // Constructors
   public Mokepon() {
     nom = "Sense definir";
     nivell = 1;
@@ -52,7 +53,7 @@ public class Mokepon {
     }
   }
 
-  public Mokepon(String nom, int nivell, int atk, int def, int vel, int hp_max, Tipus tipus) {
+  public Mokepon(String nom, int nivell, int atk, int def, int vel, long hp_max, Tipus tipus) {
     this.nom = nom;
     this.nivell = nivell;
     this.atk = atk;
@@ -61,6 +62,93 @@ public class Mokepon {
     this.hp_max = hp_max;
     this.hp_actual = hp_max;
     this.tipus = tipus;
+  }
+
+  // Getters
+  public String getNom() {
+    return nom;
+  }
+
+  public int getNivell() {
+    return nivell;
+  }
+
+  public int getAtk() {
+    return atk;
+  }
+
+  public int getDef() {
+    return def;
+  }
+
+  public int getVel() {
+    return vel;
+  }
+
+  public int getExp() {
+    return exp;
+  }
+
+  public long getHpMax() {
+    return hp_max;
+  }
+
+  public long getHpActual() {
+    return hp_actual;
+  }
+
+  public Tipus getTipus() {
+    return tipus;
+  }
+
+  public Atacs[] getAtacks() {
+    return getAtacks;
+  }
+
+  public boolean getDebilitat() {
+    return debilitat;
+  }
+
+  // Setters
+  public void setNom(String nom) {
+    this.nom = nom;
+  }
+
+  public void setNivell(int nivell) {
+    this.nivell = nivell;
+  }
+
+  public void setAtk(int atk) {
+    this.atk = atk;
+  }
+
+  public void setDef(int def) {
+    this.def = def;
+  }
+
+  public void setVel(int vel) {
+    this.vel = vel;
+  }
+
+  public void setExp(int exp) {
+    this.exp = exp;
+  }
+
+  public void setHp(long hp_actual) {
+    if (hp_actual > hp_max)
+      this.hp_actual = hp_max;
+    else if (hp_actual < 0)
+      this.hp_actual = 0;
+    else
+      this.hp_actual = hp_actual;
+  }
+
+  public void setTipus(Tipus tipus) {
+    this.tipus = tipus;
+  }
+
+  public void setDebilitat(boolean debilitat) {
+    this.debilitat = debilitat;
   }
 
   public void diguesNom() {
@@ -76,7 +164,7 @@ public class Mokepon {
     }
   }
 
-  public void pujarNivell() {
+  private void pujarNivell() {
     nivell++;
     hp_max += Utilitats.random(0, 5);
     atk += Utilitats.random(0, 2);
@@ -86,10 +174,10 @@ public class Mokepon {
   }
 
   public void afegirAtac(Atacs atac) {
-    if (atacs[0] == null)
-      atacs[0] = atac;
-    else if (atacs[1] == null)
-      atacs[1] = atac;
+    if (getAtacks[0] == null)
+      getAtacks[0] = atac;
+    else if (getAtacks[1] == null)
+      getAtacks[1] = atac;
     else
       System.out.println("No pots tenir més de dos atacs");
 
@@ -104,12 +192,12 @@ public class Mokepon {
       System.out.println("No pots atacar, el teu oponent està debilitat");
       return;
     }
-    if (atacs[num_atac] != null) {
-      if (atacs[num_atac].moviments_actuals > 0) {
-        atacs[num_atac].moviments_actuals--;
-        double efectivitat = efectivitat(atacs[num_atac].tipus, atacat.tipus);
+    if (getAtacks[num_atac] != null) {
+      if (getAtacks[num_atac].moviments_actuals > 0) {
+        getAtacks[num_atac].moviments_actuals--;
+        double efectivitat = efectivitat(getAtacks[num_atac].tipus, atacat.tipus);
         long dany = Math
-            .round(((2 * nivell / 5 + 2) * atacs[num_atac].poder * atk / atacat.def / 50 + 2) * efectivitat);
+            .round(((2 * nivell / 5 + 2) * getAtacks[num_atac].poder * atk / atacat.def / 50 + 2) * efectivitat);
         System.out.println(nom + " ha fet " + dany + " de dany a " + atacat.nom);
         atacat.hp_actual -= dany;
         if (atacat.hp_actual <= 0) {
@@ -124,7 +212,7 @@ public class Mokepon {
     }
   }
 
-  public double efectivitat(Tipus atac, Tipus defensa) {
+  public static double efectivitat(Tipus atac, Tipus defensa) {
     if (atac == Tipus.FOC && defensa == Tipus.AIGUA || atac == Tipus.AIGUA && defensa == Tipus.PLANTA
         || atac == Tipus.PLANTA && defensa == Tipus.FOC) {
       return 0.5;
@@ -168,11 +256,16 @@ public class Mokepon {
     System.out.println("Tipus: " + tipus);
     System.out.println(debilitat ? "Debilitat" : "No debilitat");
     System.out.println(nom + " ha après els atacs: ");
-    for (int i = 0; i < atacs.length; i++) {
-      if (atacs[i] != null)
-        System.out.println(atacs[i].nom + " poder: " + atacs[i].poder + " tipus: " + atacs[i].tipus + " moviments: "
-            + atacs[i].moviments_actuals + "/" + atacs[i].moviments_maxims);
+    for (int i = 0; i < getAtacks.length; i++) {
+      if (getAtacks[i] != null)
+        System.out.println(getAtacks[i].nom + " poder: " + getAtacks[i].poder + " tipus: " + getAtacks[i].tipus + " moviments: "
+            + getAtacks[i].moviments_actuals + "/" + getAtacks[i].moviments_maxims);
     }
     System.out.println(Constants.ANSI_RESET);
+  }
+
+  public String toString() {
+    return "Mokepon [nom=" + nom + ", nivell=" + nivell + ", atk=" + atk + ", def=" + def + ", vel=" + vel + ", hp_max=" + hp_max
+        + ", hp_actual=" + hp_actual + ", tipus=" + tipus + ", debilitat=" + debilitat + "]";
   }
 }
